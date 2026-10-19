@@ -8,6 +8,8 @@ namespace oop3.services
 {
     public class PcService: IPcRepository
     {
+     
+
         static public void UpdatePrice()
         {
             int price = PC.pcList[1].Price;
@@ -46,14 +48,8 @@ namespace oop3.services
             return pcList;
 
         }
-        public IEnumerable<PC> pcList = new List<PC>
-        {
 
-
-
-        };
-
-         IEnumerable<PC> IPcRepository.pcList
+      static public IEnumerable<PC> pcList
         {
             get
             {
@@ -69,12 +65,12 @@ namespace oop3.services
             }
             set;
         }
-       public PC getPcById(int PCid, IEnumerable<PC> pcList, out string message)
+        public PC GetPcById(int PCid, IEnumerable<PC> pcList, out string message)
         {
             PC foundPC = pcList.FirstOrDefault(pc => pc.PcId == PCid); //lamba func
 
             message = foundPC == null ? "Pc not found" : ""; // ternary operator
-            return foundPC; 
+            return foundPC;
         }
        
     }
