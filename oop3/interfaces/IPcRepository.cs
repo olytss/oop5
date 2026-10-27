@@ -7,8 +7,9 @@ namespace oop3.interfaces
 {
     internal interface IPcRepository
     {
-     IEnumerable<PC> pcList { get;  set; }
-    public PC getPcById(int PCid, IEnumerable<PC> pcList, out string message);
+        static public IEnumerable<PC> pcList { get; set; }
+         public PC GetPcById(int PCid, IEnumerable<PC> pcList, out string message);
+
 
     }
 }

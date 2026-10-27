@@ -1,4 +1,5 @@
-﻿using System;
+﻿using oop3.services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,10 +12,13 @@ namespace ConsoleApp3
 {
     class Program
     {
-
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
+            ConsoleControlsService.DrawControls();
+            ThreadingService.OptionThread.Start();
+          
+            
         }
     }
 

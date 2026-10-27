@@ -3,12 +3,15 @@ using oop3.model;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace oop3.services
 {
-    public class PcService: IPcRepository
+    public class PcService : IPcRepository
     {
-     
+
 
         static public void UpdatePrice()
         {
@@ -49,7 +52,7 @@ namespace oop3.services
 
         }
 
-      static public IEnumerable<PC> pcList
+        static public IEnumerable<PC> pcList
         {
             get
             {
@@ -72,6 +75,72 @@ namespace oop3.services
             message = foundPC == null ? "Pc not found" : ""; // ternary operator
             return foundPC;
         }
+
+  
+        static public List<PC> ReadFromFile()
+        {
+            if (File.Exists(@"C:\Users\artem\source\repos\oop3\oop3\TextData\text.txt"))
+            {
+                List<PC> savedPc = new List<PC>();
+                string?[] lines = File.ReadAllLines(@"C:\Users\artem\source\repos\oop3\oop3\TextData\text.txt");
+
+                foreach (string line in lines)
+                {
+                    if(string.IsNullOrWhiteSpace(line))
+                    {
+                        continue; 
+                    }
+                    string[] parts = line.Split(',');
+                    try
+                    {
+                        PC loadedPc = new PC(
+                             parts[0].Split(':')[1].Trim(),         // name
+                             parts[1].Split(':')[1].Trim(),         // screenSize
+                             int.Parse(parts[2].Split(':')[1].Trim()), // coresCount
+                             int.Parse(parts[3].Split(':')[1].Trim()), // price
+                             int.Parse(parts[4].Split(':')[1].Trim()), // ram
+                             parts[5].Split(':')[1].Trim(),         // windows
+                             int.Parse(parts[6].Split(':')[1].Trim())  // id
+                         );
+                        savedPc.Add(loadedPc);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Im too dumb to fix this now, and its problem for future me!!");
+                       
+                        Console.WriteLine($"Error parsing line: {line}. Exception: {ex.Message}");
+                        continue;
+                    }
+                    
+                    
+                }
+                return savedPc;
+            }
+            else
+            {
+                Console.WriteLine("File not found.");
+                return null;
+            }
+        }
+        static public void saveToFile(PC pc)
+        {
+            if (!File.Exists(@"C:\Users\artem\source\repos\oop3\oop3\TextData\text.txt"))
+            {
+                File.Create(@"C:\Users\artem\source\repos\oop3\oop3\TextData\text.txt").Close();
+            }
+            else
+            {
+                using (StreamWriter sw = new StreamWriter(@"C:\Users\artem\source\repos\oop3\oop3\TextData\text.txt", true))
+                {
+                   
+                    sw.WriteLine($"{pc.Name}, {pc.ScreenSize}, {pc.CoresCount}, {pc.Price}, {pc.Ram}, {pc.Windows}, {pc.PcId}");
+                    sw.Close();
+                }
+            }
+            
+        }
        
+
+   
     }
 }

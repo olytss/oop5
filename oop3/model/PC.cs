@@ -6,10 +6,9 @@ using System.Text;
 
 namespace oop3.model
 {
-    public class PC
+    [Serializable]
+    public class PC: IComparable<PC>
     {
-        
-       
             public static List<PC> pcList = new List<PC>(PcService.InitializePc());
             public int PcId{ get ; set; }
             private string _name;
@@ -31,7 +30,8 @@ namespace oop3.model
                     }
                 }
             }
-            private string _screenSize;
+
+        private string _screenSize;
             public string ScreenSize
             {
                 get
@@ -64,7 +64,6 @@ namespace oop3.model
                 }
             }
             private int _price;
-
             public int Ram
             {
                 get; set;
@@ -72,7 +71,7 @@ namespace oop3.model
 
             public string Windows
             {
-                get;
+                get; init;
 
             }
 
@@ -120,5 +119,10 @@ namespace oop3.model
             {
                 Console.WriteLine($"Manufacturer:{pc.Name}\n Screen Size: {pc.ScreenSize} \n Cores: {pc.CoresCount} \n Price {pc.Price}₴");
             }
+
+        public int CompareTo(PC? other)
+        {
+            return PcId.CompareTo(other.PcId);
         }
+    }
     }

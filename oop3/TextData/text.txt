@@ -1,0 +1,4 @@
+ASUS, 23,8', 8, 54300, 12, windows 7, 3
+DELL, 23,8', 2, 10, 10, windows 7, 2
+ASUS, 15,6', 16, 200000, 8, windows 7, 1
+ASUS, 15,6', 16, 200000, 8, windows 7, 1

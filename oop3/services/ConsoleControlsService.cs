@@ -6,7 +6,7 @@ namespace oop3.services
 {
     public class ConsoleControlsService
     {
-        public static string[] options = { "Display all PCs", "Get information about a specific PC" };
+        public static string[] options = { "Display all PCs", "Get information about a specific PC", "Save to file" };
         public static string prefix = "> ";
 
         public static readonly object ConsoleLock = new object();
@@ -85,11 +85,31 @@ namespace oop3.services
                             {
                                 case 0:
                                     Console.Clear();
-                                    outputClassConsole.displayPC();
+                                    var savedPcs = PcService.ReadFromFile();
+                                    foreach (var pc in savedPcs)
+                                    {
+                                        Console.WriteLine($"Name: {pc.Name}, Screen Size: {pc.ScreenSize}, Cores Count: {pc.CoresCount}, Price: {pc.Price}, RAM: {pc.Ram}, Windows: {pc.Windows}, PC ID: {pc.PcId}");
+                                    }
                                     break;
                                 case 1:
                                     Console.Clear();
-                                    
+                                   
+                                    break;
+                                case 2:
+                                    Console.Clear();
+                                    Console.WriteLine("What pc would you like to save?");
+                                    int pcIndex = int.Parse(Console.ReadLine());
+                                    PcService.saveToFile(PcService.pcList.ElementAt(pcIndex-1));
+                                    try
+                                    {
+                                        BinarySaveService.SavePcToBinary(PcService.pcList.ElementAt(pcIndex - 1), "C:\\Users\\artem\\source\\repos\\oop3\\oop3\\TextData\\test.bin");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine("Too old stuff!!");
+                                    }
+                                    Console.Clear();
+                                    RenderMenu(positionsOfOptions, selectedIndex);
                                     break;
                             }
                         }
